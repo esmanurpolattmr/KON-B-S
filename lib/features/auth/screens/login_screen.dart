@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String get _buttonLabel {
     switch (_selectedRole) {
       case 0:
-        return 'Esnaf olarak devam et';
+        return 'Gönderici olarak devam et';
       case 1:
         return 'Kurye olarak devam et';
       case 2:
@@ -86,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     'konbis',
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: AppTheme.primaryGreen,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 2,
-                        ),
+                      color: AppTheme.primaryGreen,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2,
+                    ),
                   ),
                 ],
               ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1),
@@ -107,16 +107,16 @@ class _LoginScreenState extends State<LoginScreen> {
               ).animate(delay: 150.ms).fadeIn(duration: 400.ms),
               const SizedBox(height: 32),
 
-              // Esnaf kartı
+              // Gönderici kartı
               _RoleCard(
-                index: 0,
-                selected: _selectedRole == 0,
-                icon: Icons.store_rounded,
-                title: 'Esnaf',
-                subtitle: 'İlan aç, paketi kur, müşterine ulaştır',
-                color: AppTheme.accentOrange,
-                onTap: () => setState(() => _selectedRole = 0),
-              )
+                    index: 0,
+                    selected: _selectedRole == 0,
+                    icon: Icons.store_rounded,
+                    title: 'Gönderici',
+                    subtitle: 'İlan aç, paketi kur, müşterine ulaştır',
+                    color: AppTheme.accentOrange,
+                    onTap: () => setState(() => _selectedRole = 0),
+                  )
                   .animate(delay: 200.ms)
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.15),
@@ -124,14 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Alıcı kartı
               _RoleCard(
-                index: 2,
-                selected: _selectedRole == 2,
-                icon: Icons.shopping_bag_rounded,
-                title: 'Alıcı',
-                subtitle: 'QR tarayarak teslimatını güvenle onayla',
-                color: AppTheme.accentBlue,
-                onTap: () => setState(() => _selectedRole = 2),
-              )
+                    index: 2,
+                    selected: _selectedRole == 2,
+                    icon: Icons.shopping_bag_rounded,
+                    title: 'Alıcı',
+                    subtitle: 'QR tarayarak teslimatını güvenle onayla',
+                    color: AppTheme.accentBlue,
+                    onTap: () => setState(() => _selectedRole = 2),
+                  )
                   .animate(delay: 280.ms)
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.15),
@@ -139,14 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Kurye kartı
               _RoleCard(
-                index: 1,
-                selected: _selectedRole == 1,
-                icon: Icons.directions_bike_rounded,
-                title: 'Gönüllü Kurye',
-                subtitle: 'Bisikletinle taşı, puan & CO₂ tasarrufu kazan',
-                color: AppTheme.primaryGreen,
-                onTap: () => setState(() => _selectedRole = 1),
-              )
+                    index: 1,
+                    selected: _selectedRole == 1,
+                    icon: Icons.directions_bike_rounded,
+                    title: 'Gönüllü Kurye',
+                    subtitle: 'Bisikletinle taşı, puan & CO₂ tasarrufu kazan',
+                    color: AppTheme.primaryGreen,
+                    onTap: () => setState(() => _selectedRole = 1),
+                  )
                   .animate(delay: 360.ms)
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.15),
@@ -162,36 +162,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     duration: const Duration(milliseconds: 300),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color:
-                          _selectedRole >= 0 ? _buttonColor : AppTheme.cardDark,
+                      color: _selectedRole >= 0
+                          ? _buttonColor
+                          : AppTheme.cardDark,
                     ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        onTap: _selectedRole >= 0 ? _proceed : null,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              _buttonLabel,
-                              style: const TextStyle(
-                                color: AppTheme.darkNavy,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                fontFamily: 'Outfit',
-                              ),
+                    child: GestureDetector(
+                      onTap: _selectedRole >= 0 ? _proceed : null,
+                      behavior: HitTestBehavior.opaque,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _buttonLabel,
+                            style: const TextStyle(
+                              color: AppTheme.darkNavy,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              fontFamily: 'Outfit',
                             ),
-                            if (_selectedRole >= 0) ...[
-                              const SizedBox(width: 8),
-                              const Icon(
-                                Icons.arrow_forward_rounded,
-                                size: 20,
-                                color: AppTheme.darkNavy,
-                              ),
-                            ],
+                          ),
+                          if (_selectedRole >= 0) ...[
+                            const SizedBox(width: 8),
+                            const Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 20,
+                              color: AppTheme.darkNavy,
+                            ),
                           ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -227,82 +225,79 @@ class _RoleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      decoration: BoxDecoration(
-        color: selected ? color.withValues(alpha: 0.12) : AppTheme.cardDark,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: selected ? color : Colors.transparent,
-          width: 2,
-        ),
-        boxShadow: selected
-            ? [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.2),
-                  blurRadius: 20,
-                  spreadRadius: 2,
-                ),
-              ]
-            : [],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        decoration: BoxDecoration(
+          color: selected ? color.withValues(alpha: 0.12) : AppTheme.cardDark,
           borderRadius: BorderRadius.circular(20),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: selected ? color : Colors.transparent,
+            width: 2,
+          ),
+          boxShadow: selected
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.2),
+                    blurRadius: 20,
+                    spreadRadius: 2,
                   ),
-                  child: Icon(icon, color: color, size: 28),
+                ]
+              : [],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppTheme.textPrimary,
-                            ),
+                child: Icon(icon, color: color, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: AppTheme.textPrimary,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.textSecondary,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: selected ? color : Colors.transparent,
-                    border: Border.all(
-                      color: selected ? color : AppTheme.textSecondary,
-                      width: 2,
                     ),
-                  ),
-                  child: selected
-                      ? const Icon(Icons.check, size: 14, color: Colors.white)
-                      : null,
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: selected ? color : Colors.transparent,
+                  border: Border.all(
+                    color: selected ? color : AppTheme.textSecondary,
+                    width: 2,
+                  ),
+                ),
+                child: selected
+                    ? const Icon(Icons.check, size: 14, color: Colors.white)
+                    : null,
+              ),
+            ],
           ),
         ),
       ),

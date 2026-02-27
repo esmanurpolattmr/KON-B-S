@@ -1,20 +1,34 @@
 /// Bisiklet kullanımının karbon tasarrufunu hesaplar.
-/// Referans: Ortalama araç CO₂ emisyonu ~0.21 kg/km (Türkiye ortalaması)
+/// Referans: Şehir içi ortalama motorlu kurye CO₂ emisyonu ~0.150 kg/km
 class CarbonCalculator {
-  static const double _co2PerKmByCar = 0.210; // kg CO₂ per km
-  static const double _bisPointsPerKm = 10.0;
+  static const double _co2PerKmByMotor = 0.150; // kg CO₂ per km
 
-  /// km başına kurtarılan CO₂ (kg)
-  static double calculateCarbonSaved(double distanceKm) {
-    return distanceKm * _co2PerKmByCar;
+  /// Taşınan yüke göre Zorluk/Efor katsayısı
+  /// 1 KG'ye kadar katsayı 1.0 (Standart)
+  /// 1 KG üzeri her 1 KG için ekstra +0.2 katsayı eklenir.
+  static double _getWeightMultiplier(double weightKg) {
+    if (weightKg <= 1.0) return 1.0;
+    final extraWeight = weightKg - 1.0;
+    return 1.0 + (extraWeight * 0.2);
   }
 
-  /// kazanılan BiS puanı
-  static double calculateBisPoints(double distanceKm) {
-    return distanceKm * _bisPointsPerKm;
+  /// km başına kurtarılan CO₂ (kg) (Yük ağırlığı da hesaba katılarak)
+  static double calculateCarbonSaved(
+    double distanceKm, {
+    double weightKg = 0.0,
+  }) {
+    final multiplier = _getWeightMultiplier(weightKg);
+    return distanceKm * _co2PerKmByMotor * multiplier;
   }
 
-  /// CO₂ değerini okunabilir formata çevirir
+  /// Doğaya Katkı (BiS) Puanı
+  /// Her 1 kg CO₂ tasarrufu = 100 BiS Puanı
+  static double calculateBisPoints(double distanceKm, {double weightKg = 0.0}) {
+    final carbonSaved = calculateCarbonSaved(distanceKm, weightKg: weightKg);
+    return carbonSaved * 100.0;
+  }
+
+  /// CO₂ değerini okunabilir formata çevirir (g veya kg)
   static String formatCo2(double kg) {
     if (kg >= 1.0) return '${kg.toStringAsFixed(2)} kg CO₂';
     return '${(kg * 1000).toStringAsFixed(0)} g CO₂';

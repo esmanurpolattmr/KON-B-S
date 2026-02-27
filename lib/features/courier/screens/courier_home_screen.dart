@@ -81,17 +81,17 @@ class _CourierHomeScreenState extends State<CourierHomeScreen> {
             child: _mapView
                 ? _MapViewSection(listings: listings)
                 : listings.isEmpty
-                    ? _NoListings()
-                    : ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
-                        itemCount: listings.length,
-                        itemBuilder: (ctx, i) {
-                          return _AvailableCard(listing: listings[i])
-                              .animate(delay: (i * 70).ms)
-                              .fadeIn(duration: 300.ms)
-                              .slideY(begin: 0.1);
-                        },
-                      ),
+                ? _NoListings()
+                : ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
+                    itemCount: listings.length,
+                    itemBuilder: (ctx, i) {
+                      return _AvailableCard(listing: listings[i])
+                          .animate(delay: (i * 70).ms)
+                          .fadeIn(duration: 300.ms)
+                          .slideY(begin: 0.1);
+                    },
+                  ),
           ),
         ],
       ),
@@ -355,6 +355,11 @@ class _AcceptSheet extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: () {
                 context.read<CourierProvider>().acceptDelivery(listing);
+                context.read<MerchantProvider>().updateListingStatus(
+                  listing.id,
+                  ListingStatus.assigned,
+                  courierId: 'courier-current',
+                );
                 Navigator.pop(context);
                 Navigator.push(
                   context,
@@ -418,7 +423,8 @@ class _MapViewSectionState extends State<_MapViewSection> {
   void _zoomIn() {
     if (_currentZoom < _maxZoom) {
       setState(
-          () => _currentZoom = (_currentZoom + 1).clamp(_minZoom, _maxZoom));
+        () => _currentZoom = (_currentZoom + 1).clamp(_minZoom, _maxZoom),
+      );
       _mapController.move(_mapController.camera.center, _currentZoom);
     }
   }
@@ -426,14 +432,15 @@ class _MapViewSectionState extends State<_MapViewSection> {
   void _zoomOut() {
     if (_currentZoom > _minZoom) {
       setState(
-          () => _currentZoom = (_currentZoom - 1).clamp(_minZoom, _maxZoom));
+        () => _currentZoom = (_currentZoom - 1).clamp(_minZoom, _maxZoom),
+      );
       _mapController.move(_mapController.camera.center, _currentZoom);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    const center = LatLng(40.9849, 29.0270);
+    const center = LatLng(37.8713, 32.4846); // Konya - Alaeddin Tepesi
 
     return Stack(
       children: [
@@ -455,7 +462,7 @@ class _MapViewSectionState extends State<_MapViewSection> {
                 userAgentPackageName: 'com.konbis.konbis',
                 keepBuffer: 3,
                 maxZoom: 18,
-                tileSize: 256,
+                tileDimension: 256,
               ),
               MarkerLayer(
                 markers: widget.listings
@@ -472,8 +479,9 @@ class _MapViewSectionState extends State<_MapViewSection> {
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.primaryGreen
-                                      .withValues(alpha: 0.5),
+                                  color: AppTheme.primaryGreen.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   blurRadius: 10,
                                 ),
                               ],
@@ -534,8 +542,11 @@ class _MapViewSectionState extends State<_MapViewSection> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.zoom_in_rounded,
-                    size: 14, color: AppTheme.primaryGreen),
+                const Icon(
+                  Icons.zoom_in_rounded,
+                  size: 14,
+                  color: AppTheme.primaryGreen,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   'Zoom: ${_currentZoom.toStringAsFixed(0)}',

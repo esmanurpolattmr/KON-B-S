@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/splash_screen.dart';
-import 'features/courier/providers/courier_provider.dart';
 import 'features/merchant/providers/merchant_provider.dart';
+import 'features/courier/providers/courier_provider.dart';
 import 'features/wallet/providers/wallet_provider.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Sadece portre modu (gereksiz layout rebuild yok)
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
   runApp(const KonbisApp());
 }
 
@@ -25,11 +19,11 @@ class KonbisApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MerchantProvider()),
-        ChangeNotifierProvider(create: (_) => CourierProvider()),
         ChangeNotifierProvider(create: (_) => WalletProvider()),
+        ChangeNotifierProvider(create: (_) => CourierProvider()),
       ],
       child: MaterialApp(
-        title: 'Konbis',
+        title: 'KonBis - Bisiklet Kurye',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,
         home: const SplashScreen(),

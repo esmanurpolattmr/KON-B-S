@@ -18,8 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const LoginScreen(),
-            transitionsBuilder: (_, anim, __, child) =>
+            pageBuilder: (ctx, p2, p3) => const LoginScreen(),
+            transitionsBuilder: (ctx, anim, p2, child) =>
                 FadeTransition(opacity: anim, child: child),
             transitionDuration: const Duration(milliseconds: 600),
           ),
@@ -37,52 +37,52 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppTheme.primaryGreen, Color(0xFF00A87A)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.primaryGreen.withValues(alpha: 0.4),
-                    blurRadius: 40,
-                    spreadRadius: 5,
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppTheme.primaryGreen, Color(0xFF00A87A)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.4),
+                        blurRadius: 40,
+                        spreadRadius: 5,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: const Icon(
-                Icons.directions_bike,
-                size: 64,
-                color: AppTheme.darkNavy,
-              ),
-            )
+                  child: const Icon(
+                    Icons.directions_bike,
+                    size: 64,
+                    color: AppTheme.darkNavy,
+                  ),
+                )
                 .animate()
                 .scale(duration: 600.ms, curve: Curves.elasticOut)
                 .fadeIn(duration: 400.ms),
             const SizedBox(height: 28),
             Text(
-              'konbis',
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  'konbis',
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     color: AppTheme.primaryGreen,
                     letterSpacing: 4,
                     fontWeight: FontWeight.w800,
                   ),
-            )
+                )
                 .animate(delay: 400.ms)
                 .slideY(begin: 0.3, curve: Curves.easeOut, duration: 500.ms)
                 .fadeIn(duration: 500.ms),
             const SizedBox(height: 8),
             Text(
-              'Bisikletle taşı, dünyayı kurtar',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  'Bisikletle taşı, dünyayı kurtar',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppTheme.textSecondary,
                     letterSpacing: 1,
                   ),
-            )
+                )
                 .animate(delay: 700.ms)
                 .fadeIn(duration: 500.ms)
                 .slideY(begin: 0.2, curve: Curves.easeOut),

@@ -41,7 +41,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
               size: 22,
             ),
             const SizedBox(width: 8),
-            const Text('Esnaf Paneli'),
+            const Text('Gönderici Paneli'),
           ],
         ),
         actions: [
@@ -119,16 +119,18 @@ class _StatBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final open = listings.where((l) => l.status == ListingStatus.open).length;
-    final delivered = listings
-        .where((l) => l.status == ListingStatus.delivered)
-        .length;
+    final delivered =
+        listings.where((l) => l.status == ListingStatus.delivered).length;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppTheme.accentOrange.withValues(alpha: 0.15), AppTheme.cardDark],
+          colors: [
+            AppTheme.accentOrange.withValues(alpha: 0.15),
+            AppTheme.cardDark
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -176,9 +178,9 @@ class _StatItem extends StatelessWidget {
         Text(
           value,
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            color: color,
-            fontWeight: FontWeight.w800,
-          ),
+                color: color,
+                fontWeight: FontWeight.w800,
+              ),
         ),
         Text(label, style: Theme.of(context).textTheme.bodyMedium),
       ],
@@ -195,8 +197,8 @@ class _ListingCard extends StatelessWidget {
     final statusColor = listing.status == ListingStatus.open
         ? AppTheme.primaryGreen
         : listing.status == ListingStatus.assigned
-        ? AppTheme.warning
-        : AppTheme.textSecondary;
+            ? AppTheme.warning
+            : AppTheme.textSecondary;
 
     return GlassCard(
       margin: const EdgeInsets.only(bottom: 12),
